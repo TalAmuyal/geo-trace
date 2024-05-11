@@ -1,0 +1,10 @@
+# IDEs
+.vscode
+
+# Rust
+target
+
+# Python
+.venv
+__pycache__
+*.pyc
