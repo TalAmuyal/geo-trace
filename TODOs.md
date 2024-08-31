@@ -1,9 +1,0 @@
-- Add data optimization like dropping columns
-- Add API for multi-lookup
-- Put the CSV under Arc for lightweight copy (and verify before and after)
-- Put a README with explanations of low-latency low-memory & detail the implementation, trade-offs and API
-- Add a CI/CD pipeline
-- Publish optimized Wheels (Rust)
-- Build and test for Python 3.8-3.13
-- Build and test for Windows, Linux, and MacOS
-- Build and test for x86, ARM, and PowerPC
