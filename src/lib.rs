@@ -244,11 +244,11 @@ impl ReverseGeocoder {
         ReverseGeocoder::new(csv, value_sep, drop_coordinates)
     }
 
-    pub fn get_nearest_data(&self, lat: f64, lon: f64) -> PyResult<String> {
+    pub fn get_nearest_as_string(&self, lat: f64, lon: f64) -> PyResult<String> {
         Ok(self.get_nearest(lat, lon))
     }
 
-    pub fn get_nearest_dict(&self, lat: f64, lon: f64) -> PyResult<HashMap<String, String>> {
+    pub fn get_nearest_as_dict(&self, lat: f64, lon: f64) -> PyResult<HashMap<String, String>> {
         let data = self.get_nearest(lat, lon);
 
         let mut dict = HashMap::new();
