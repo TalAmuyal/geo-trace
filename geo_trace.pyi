@@ -15,14 +15,14 @@ class ReverseGeocoder:
         value_sep: str,
     ) -> None: ...
 
-    def get_nearest_data(self, lat: float, lon: float) -> str:
+    def get_nearest_as_string(self, lat: float, lon: float) -> str:
         """
         Gets the data that is nearest to the given lat, lon
 
         :return: a string containing the data
         """
 
-    def get_nearest_dict(self, lat: float, lon: float) -> dict[str, str]:
+    def get_nearest_as_dict(self, lat: float, lon: float) -> dict[str, str]:
         """
         Gets the data that is nearest to the given lat, lon
 

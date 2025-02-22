@@ -33,16 +33,18 @@ geocoder = ReverseGeocoder(
     value_sep=",",
 )
 
-str_row: str = geocoder.get_nearest_data(37.7749, -122.4194)  # Returns the CSV row as a string
+# Get the row from the CSV as a string
+str_row: str = geocoder.get_nearest_as_string(37.7749, -122.4194)
 print(str_row)
 
-dict_row: dict = geocoder.get_nearest_dict(37.7749, -122.4194)  # Returns the CSV row as a dictionary
+# Get the row from the CSV as a dictionary
+dict_row: dict = geocoder.get_nearest_as_dict(37.7749, -122.4194)
 print(dict_row)
 
 # Loading the CSV is relatively slow, so it's better to save the optimized result:
 path = pathlib.Path("path/to/geo-trace-compact.msgpack")
 geocoder.save()
-geocoder_2 = ReverseGeocoder.load(path)
+geocoder_2 = ReverseGeocoder.load(path)  # Much faster than the original constructor
 ```
 
 

@@ -17,14 +17,14 @@ def rg(ReverseGeocoder):
 
 @pytest.mark.skipif(SKIP_SLOW, reason="Skipping slow tests")
 def test_load_comma_csv(rg):
-    assert rg.get_nearest_data(37.7749, -122.4194) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
+    assert rg.get_nearest_as_string(37.7749, -122.4194) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
 
 
 @pytest.mark.skipif(SKIP_SLOW, reason="Skipping slow tests")
 def test_lookup(rg):
-    assert rg.get_nearest_data(37.7749, -122.4194) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
-    assert rg.get_nearest_data(37.774, -122.419) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
-    assert rg.get_nearest_data(37.77, -122.41) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
+    assert rg.get_nearest_as_string(37.7749, -122.4194) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
+    assert rg.get_nearest_as_string(37.774, -122.419) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
+    assert rg.get_nearest_as_string(37.77, -122.41) == "37.77493,-122.41942,San Francisco,California,San Francisco County,US"
 
 
 @pytest.mark.skipif(SKIP_SLOW, reason="Skipping slow tests")
@@ -51,4 +51,4 @@ def test_lookup_from_loaded_file(
         ),
     ]
     for (lat, lon), expected in test_cases:
-        assert loaded_rg.get_nearest_data(lat, lon) == expected
+        assert loaded_rg.get_nearest_as_string(lat, lon) == expected

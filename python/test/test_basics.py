@@ -12,7 +12,7 @@ def test_loading_with_default_value_separator(ReverseGeocoder):
         f"{data}\n"
     )
     rg = ReverseGeocoder(csv)
-    assert rg.get_nearest_data(37.774, -122.419) == data
+    assert rg.get_nearest_as_string(37.774, -122.419) == data
 
 
 @pytest.mark.parametrize("value_separator", [",", ";"])
@@ -26,7 +26,7 @@ def test_loading_with_value_separator(
         f"{data}\n"
     )
     rg = ReverseGeocoder(csv, value_separator)
-    assert rg.get_nearest_data(37.774, -122.419) == data
+    assert rg.get_nearest_as_string(37.774, -122.419) == data
 
 
 def test_loading_and_lookup_with_escaped_comma(
@@ -44,7 +44,7 @@ def test_loading_and_lookup_with_escaped_comma(
         "names": "David, Jonatan, and Joseph",
     }
 
-    actual = rg.get_nearest_dict(37.774, -122.419)
+    actual = rg.get_nearest_as_dict(37.774, -122.419)
 
     assert actual == expected
 
@@ -59,9 +59,9 @@ def test_loading_and_lookup_with_dropped_coordinates(
     rg = ReverseGeocoder(csv, drop_coordinates=True)
 
     expected_data = "San Francisco"
-    actual_data = rg.get_nearest_data(37.774, -122.419)
+    actual_data = rg.get_nearest_as_string(37.774, -122.419)
     assert actual_data == expected_data
 
     expected_dict = {"city": "San Francisco"}
-    actual_dict = rg.get_nearest_dict(37.774, -122.419)
+    actual_dict = rg.get_nearest_as_dict(37.774, -122.419)
     assert actual_dict == expected_dict
