@@ -3,6 +3,8 @@
 
 pkgs.mkShell {
   buildInputs = [
+    pkgs.git
+
     # Rust
     pkgs.rustc
     pkgs.cargo
