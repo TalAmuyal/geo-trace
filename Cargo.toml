@@ -18,7 +18,7 @@ crate-type = [
 anyhow = ">=1.0.86,<2"
 csv = ">=1.3,<2"
 kiddo = { version = ">=4.2,<5", features = ["serialize"] }
-pyo3 = { version = ">=0.21.2,<0.22", features = ["extension-module", "anyhow"] }
+pyo3 = { version = ">=0.25.0,<0.26", features = ["extension-module", "anyhow"] }
 rmp-serde = ">=1.3,<2"
 serde = ">=1.0.201,<2"
 
