@@ -1,6 +1,6 @@
 .PHONY: install
 install:
-	python -m pip install -Ur test-requirements.txt
+	.venv/bin/python -m pip install -Ur test-requirements.txt
 
 
 .PHONY: print-sep
@@ -22,11 +22,11 @@ bench-rust:
 
 .PHONY: build-maturin
 build-maturin:
-	python -m maturin develop
+	.venv/bin/python -m maturin develop
 
 .PHONY: test-python
 test-python:
-	python -m pytest python/test
+	.venv/bin/python -m pytest python/test
 
 .PHONY: test
 test: print-sep test-rust build-maturin test-python print-sep
