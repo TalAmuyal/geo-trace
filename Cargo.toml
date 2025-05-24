@@ -22,6 +22,11 @@ pyo3 = { version = ">=0.25.0,<0.26", features = ["extension-module", "anyhow"] }
 rmp-serde = ">=1.3,<2"
 serde = ">=1.0.201,<2"
 
+[profile.release]
+codegen-units = 1
+debug = false
+lto = "fat"
+
 [profile.bench]
 debug = true
 
