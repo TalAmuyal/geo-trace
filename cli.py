@@ -1,7 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
+import csv
+import json
 import os
 import pathlib
+import random
 
 import psutil
 import typer
@@ -16,6 +20,7 @@ while not (root_path / ".git").exists():
 test_data_path = root_path / "test_data"
 full_data_csv_path = test_data_path / "full_data.csv"
 full_data_compact_path = test_data_path / "full_data.msgpack"
+selected_coordinates_path = test_data_path / "selected_coordinates.json"
 
 
 app = typer.Typer()
@@ -44,6 +49,24 @@ def compact(
 ) -> None:
     rg = ReverseGeocoder(src.read_text())
     rg.save(dst)
+
+
+@app.command()
+def select_coordinates(
+    src: pathlib.Path = full_data_csv_path,
+    dst: pathlib.Path = selected_coordinates_path,
+) -> None:
+    with open(src, "r") as f:
+        reader = csv.DictReader(f)
+        coordinates = [
+            [float(row["lat"]), float(row["lon"])]
+            for row in reader
+        ]
+
+    selceted = random.sample(coordinates, 1000)
+
+    with open(dst, "w") as f:
+        json.dump(selceted, f)
 
 
 def get_memory_usage_mb() -> float:
