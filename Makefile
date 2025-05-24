@@ -18,7 +18,12 @@ test-rust:
 
 .PHONY: bench-rust
 bench-rust:
-	cargo flamegraph --test loading_benchmark
+	cargo bench --bench benchmark
+
+.PHONY: profile-rust
+profile-rust:
+	cargo install flamegraph
+	cargo flamegraph --bench benchmark -- --bench
 
 .PHONY: build-maturin
 build-maturin:
