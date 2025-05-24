@@ -118,10 +118,8 @@ The memory usage needed to load the compact version was half as much and it took
 - In the README:
   - Explain what made the implementation have low-latency and low-memory usage and its trade-offs
 - Add a CI/CD pipeline
-  - Build and test for Python 3.8-3.13
-  - Build and test for Windows, Linux, and MacOS
-  - Build and test for x86, ARM, and PowerPC
-  - Publish to PyPI
+  - Build and test for Python 3.13, 3.14
+  - Support free-threading
 - Add API for:
   - Data optimization (like dropping columns)
   - Multi-lookup
