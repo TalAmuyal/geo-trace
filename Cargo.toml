@@ -38,4 +38,5 @@ lto = "fat"
 
 [[bench]]
 name = "benchmark"
+path = "benchmarks/rust/benchmark.rs"
 harness = false
