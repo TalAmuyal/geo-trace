@@ -1,0 +1,18 @@
+{
+    "version": 1,
+    "project": "geo-trace",
+    "project_url": "https://github.com/TalAmuyal/geo-trace",
+    "repo": ".",
+    "build_command": [
+        "python -m maturin build --release --out {build_cache_dir}"
+    ],
+    "branches": ["master"],
+    "dvcs": "git",
+    "environment_type": "virtualenv",
+    "show_commit_url": "https://github.com/TalAmuyal/geo-trace/commit/",
+    "pythons": ["3.10"],
+    "benchmark_dir": "benchmarks/python",
+    "env_dir": ".asv/env",
+    "results_dir": ".asv/results",
+    "html_dir": ".asv/html"
+}

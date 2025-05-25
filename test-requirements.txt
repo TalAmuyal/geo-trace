@@ -1,5 +1,5 @@
+asv>=0.6.4,<0.7
 maturin[patchelf]>=1.5.1,<2.0.0
-
 pytest>=8.2.0,<9.0.0
 psutil
 typer

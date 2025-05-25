@@ -20,6 +20,10 @@ test-rust:
 bench-rust:
 	cargo bench --bench benchmark
 
+.PHONY: bench-python
+bench-python:
+	asv run
+
 .PHONY: profile-rust
 profile-rust:
 	cargo install flamegraph

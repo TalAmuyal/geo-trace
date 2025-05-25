@@ -125,6 +125,7 @@ The memory usage needed to load the compact version was half as much and it took
   - Multi-lookup
   - Lightweight copy (put the CSV under an Arc + verify before and after)
   - Compress the table by moving cell values to an array and replace with an index
+- Move `test-requirements.txt` to `pyproject.toml` and create a lock file
 
 
 # License
