@@ -2,7 +2,6 @@
 install:
 	.venv/bin/python -m pip install -Ur test-requirements.txt
 
-
 .PHONY: print-sep
 print-sep:
 	@echo ""
@@ -29,13 +28,23 @@ profile-rust:
 	cargo install flamegraph
 	cargo flamegraph --bench benchmark -- --bench
 
-.PHONY: build-maturin
-build-maturin:
+.PHONY: build-rust
+build-rust:
 	.venv/bin/python -m maturin develop
 
 .PHONY: test-python
 test-python:
 	.venv/bin/python -m pytest python/test
 
+.PHONY: lock
+lock: lock-rust lock-python
+
+.PHONY: lock-rust
+lock-rust:
+	cargo generate-lockfile
+
+.PHONY: lock-python
+	echo "Not implemented yet"
+
 .PHONY: test
-test: print-sep test-rust build-maturin test-python print-sep
+test: print-sep test-rust build-rust test-python print-sep

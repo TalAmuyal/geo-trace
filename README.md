@@ -22,29 +22,90 @@ pip install geo-trace
 # Usage
 
 ```python
-import pathlib
+from geo_trace import ReverseGeocoder
+
+rg = ReverseGeocoder(csv_data)
+
+str_row: str = rg.get_nearest_as_string(37.7749, -122.4194)
+print(str_row)
+
+dict_row: dict = rg.get_nearest_as_dict(37.7749, -122.4194)
+print(dict_row)
+```
+
+(see complete example below)
+
+
+## Getting the data
+
+TL;DR: You need a CSV file with latitude and longitude data, which can be downloaded from the [Geo Names](https://www.geonames.org/) database.
+
+Geo Trace needs to be provided with the date, which is then parsed and optimized for fast lookups and low memory footprint.
+The data should be a CSV with:
+1. A header row (the fist line is the name of the columns)
+2. The first column for the latitude and the second column for the longitude
+3. The rest of the columns for any data you want to associate with that location
+
+The column names in the header row can be anything and will be used as keys in the dictionary returned by `get_nearest_as_dict`.
+
+Such a CSV can be downloaded from the [Geo Names] (https://www.geonames.org/) database.
+
+## Recommendations
+
+1. Drop any unnecessary columns from the CSV
+    - This can dramatically reduce memory usage
+    - See the complete example below
+2. After the data is loaded for the first time, save the optimized object to a compact format for future use using the `save` method
+    - This will create a `.msgpack` file that is optimized for fast loading
+    - See the complete example below
+3. If the associated coordinates are not needed in the lookup result, drop the coordinates using the `drop_coordinates` parameter
+    - This will reduce the memory footprint
+    - See the complete example below
+
+
+## Complete example
+
+```python
+import io
+import time
+
+import pandas
 
 from geo_trace import ReverseGeocoder
 
 
-# The constructor loads the CSV into memory and optimizes it for fast lookups
-rg = ReverseGeocoder(
-    csv="path/to/geo-trace.csv",
-    value_sep=",",
+# Load only the necessary columns from the CSV into a DataFrame
+csv_buffer = io.StringIO()
+pandas.read_csv(
+    "test_data/full_data.csv",
+    usecols=["lat", "lon", "name", "cc"],
+).to_csv(
+    csv_buffer,
+    index=False,
+    header=True,
 )
 
-# Get the row from the CSV as a string
-str_row: str = rg.get_nearest_as_string(37.7749, -122.4194)
-print(str_row)
+# The constructor parser the data and optimizes it for fast lookup and small memory footprint
+print("Optimizing will take a while... (depending on the size of the data)")
+start_time = time.perf_counter()
+rg = ReverseGeocoder(
+    csv=csv_buffer.getvalue(),  # [Required] The CSV data as a string
+    value_sep=",",  #             [Optional] Defaults to `,`
+    drop_coordinates=True,  #     [Optional] Defaults to `False` - Useful if the coordinates are not needed as part of the lookup result
+)
+print(f"Took {time.perf_counter() - start_time:.2f} seconds")
+# Took 116.32 seconds (on a modest desktop PC with an SSD)
 
-# Get the row from the CSV as a dictionary
-dict_row: dict = rg.get_nearest_as_dict(37.7749, -122.4194)
-print(dict_row)
+# Save the optimized data to a compact format that loads MUCH faster
+rg.save("test_data/relevant_data.msgpack")
+start_time = time.perf_counter()
+rg = ReverseGeocoder.load("test_data/relevant_data.msgpack")
+print(f"Took {time.perf_counter() - start_time:.2f} seconds")
+# Took 1.34 seconds (on the same machine as above)
 
-# Loading the CSV is relatively slow, so it's better to save the optimized result:
-path = pathlib.Path("path/to/geo-trace-compact.msgpack")
-rg.save()
-geocoder_2 = ReverseGeocoder.load(path)  # Much faster than the original constructor
+# Get the nearest location as a dictionary
+nearest_location = rg.get_nearest_as_dict(37.7749, -122.4194)
+print(nearest_location)
 ```
 
 
@@ -111,21 +172,6 @@ sys     0m0.700s
 ```
 
 The memory usage needed to load the compact version was half as much and it took about 1.54% of the time.
-
-
-# TODOs
-
-- In the README:
-  - Explain what made the implementation have low-latency and low-memory usage and its trade-offs
-- Add a CI/CD pipeline
-  - Build and test for Python 3.13, 3.14
-  - Support free-threading
-- Add API for:
-  - Data optimization (like dropping columns)
-  - Multi-lookup
-  - Lightweight copy (put the CSV under an Arc + verify before and after)
-  - Compress the table by moving cell values to an array and replace with an index
-- Move `test-requirements.txt` to `pyproject.toml` and create a lock file
 
 
 # License
